@@ -10,8 +10,11 @@
   .ant-menu-item {
     padding: 0 !important;
     text-align: center;
-    font-size: 17px;
+    font-size: 16px;
   }
+}
+.ant-menu-inline.ant-menu-root .ant-menu-submenu-title > .ant-menu-title-content {
+  font-size: 16px;
 }
 
 .ir {

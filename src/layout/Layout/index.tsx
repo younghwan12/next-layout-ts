@@ -6,8 +6,8 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons"
-import { Menu, Button, theme } from "antd"
-import { Layout as AntdLayout } from "antd"
+import { Menu, Button, theme, Layout as AntdLayout } from "antd"
+import {} from "antd"
 import Image from "next/image"
 
 const { Header, Sider, Content } = AntdLayout
@@ -17,10 +17,19 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const [currentMenu, setCurrentMenu] = useState(null)
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer },
   } = theme.useToken()
+
+  const handleMouseEnter = (e) => {
+    setCurrentMenu(e.key)
+  }
+
+  const handleMouseLeave = () => {
+    setCurrentMenu(null)
+  }
 
   return (
     <AntdLayout>
@@ -36,27 +45,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           items={[
             {
               key: "1",
-              label: "nav 1",
+              label: "1페이지",
+              children: [
+                {
+                  key: "1.1",
+                  label: "페이지1.1",
+                },
+              ],
             },
             {
               key: "2",
-              label: "nav 2",
+              label: "2페이지",
             },
             {
               key: "3",
-              label: "nav 3",
-            },
-            {
-              key: "4",
-              label: "nav 4",
-            },
-            {
-              key: "5",
-              label: "nav 5",
-            },
-            {
-              key: "6",
-              label: "nav 6",
+              label: "3페이지",
             },
           ]}
         />
