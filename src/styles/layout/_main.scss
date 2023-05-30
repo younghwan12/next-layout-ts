@@ -50,5 +50,12 @@ a {
   }
 }
 .ant-menu-light.ant-menu-root.ant-menu-inline {
-  min-height: 88%;
+  // min-height: calc(100vh - 94px);
+}
+
+.demo-logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
 }

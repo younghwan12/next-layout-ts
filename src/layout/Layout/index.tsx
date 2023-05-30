@@ -28,6 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* <div className="px-3 py-5 min-h-[64px]">
           <Image className="mx-auto" alt="logo" width="163" height="163" src="/images/logo.png" />
         </div> */}
+        <div className="demo-logo" />
         <Menu
           theme="light"
           mode="inline"
@@ -70,6 +71,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               fontSize: "16px",
               width: 64,
               height: 64,
+              //   alignItems: "center",
+              //   justifyContent: "center",
             }}
           />
         </Header>
