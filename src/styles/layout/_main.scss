@@ -1,0 +1,54 @@
+.ant-layout {
+  height: 100vh;
+}
+
+.ant-layout-content {
+  margin: 30px 24px !important;
+  border-radius: 5px;
+}
+.ant-layout-sider-children {
+  .ant-menu-item {
+    padding: 0 !important;
+    text-align: center;
+    font-size: 17px;
+  }
+}
+
+.ir {
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+  overflow: hidden;
+  text-indent: -10000px;
+}
+
+.blind {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.layout-wrapper {
+  min-height: 100vh;
+}
+
+.ant-layout {
+  .ant-layout-sider {
+    background: none;
+  }
+}
+.ant-menu-light.ant-menu-root.ant-menu-inline {
+  min-height: 88%;
+}
