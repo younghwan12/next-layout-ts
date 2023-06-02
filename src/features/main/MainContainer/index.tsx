@@ -1,9 +1,19 @@
 import React, { useState, useRef, useCallback } from "react"
-import ReactFlow, { ReactFlowProvider, addEdge, useNodesState, useEdgesState, Controls } from "reactflow"
+import ReactFlow, {
+  ReactFlowProvider,
+  addEdge,
+  useNodesState,
+  useEdgesState,
+  getIncomers,
+  getOutgoers,
+  getConnectedEdges,
+} from "reactflow"
 import "reactflow/dist/style.css"
 import { Button } from "antd"
 
-const initialNodes = [
+import { Node } from "@reactflow/core/dist/esm/types/nodes"
+
+const initialNodes: Node[] = [
   {
     id: "1",
     type: "input",
@@ -15,7 +25,7 @@ const initialNodes = [
     data: { label: "그룹" },
     position: { x: 320, y: 200 },
     className: "light",
-    style: { backgroundColor: "rgba(255, 0, 0, 0.2)", width: 300, height: 300 },
+    type: "group",
   },
   {
     id: "2b",
@@ -23,6 +33,7 @@ const initialNodes = [
     position: { x: 100, y: 100 },
     className: "light",
     parentNode: "2",
+    extent: "parent",
   },
   {
     id: "2c",
@@ -30,6 +41,7 @@ const initialNodes = [
     position: { x: 50, y: 150 },
     className: "light",
     parentNode: "2",
+    extent: "parent",
   },
 ]
 
@@ -81,8 +93,6 @@ const DnDFlow = () => {
         data: { label: `${type} node` },
       }
 
-      console.log(newNode)
-
       setNodes((nds) => nds.concat(newNode))
     },
     [reactFlowInstance]
@@ -98,6 +108,34 @@ const DnDFlow = () => {
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.setData("application/reactflow", nodeType)
     event.dataTransfer.effectAllowed = "move"
+  }
+
+  // 노드 삭제
+  const onNodesDelete = useCallback(
+    (deleted) => {
+      setEdges(
+        deleted.reduce((acc, node) => {
+          const incomers = getIncomers(node, nodes, edges)
+          const outgoers = getOutgoers(node, nodes, edges)
+          const connectedEdges = getConnectedEdges([node], edges)
+
+          const remainingEdges = acc.filter((edge) => !connectedEdges.includes(edge))
+
+          const createdEdges = incomers.flatMap(({ id: source }) =>
+            outgoers.map(({ id: target }) => ({ id: `${source}->${target}`, source, target }))
+          )
+
+          return [...remainingEdges, ...createdEdges]
+        }, edges)
+      )
+    },
+    [nodes, edges]
+  )
+
+  const [selectedNodeId, setSelectedNodeId] = useState(null)
+
+  const NodeClick = (event, node) => {
+    setSelectedNodeId(node.id)
   }
 
   return (
@@ -132,6 +170,8 @@ const DnDFlow = () => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
+            onNodesDelete={onNodesDelete}
+            onNodeClick={NodeClick}
           />
         </div>
       </ReactFlowProvider>
