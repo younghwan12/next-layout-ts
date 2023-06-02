@@ -42,7 +42,16 @@ const DnDFlow = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [])
+  // const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [])
+  const onConnect = useCallback((params) => {
+    // 화살표 추가!
+    // const arrowHeadType = {
+    //   type: "arrow",
+    //   color: "#f00",
+    // }
+    // params.markerEnd = arrowHeadType
+    setEdges((eds) => addEdge({ ...params, markerEnd: { type: "arrow", color: "#B1B1B7" } }, eds))
+  }, [])
 
   const onDragOver = useCallback((event) => {
     event.preventDefault()
