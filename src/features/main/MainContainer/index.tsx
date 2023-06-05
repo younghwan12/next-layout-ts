@@ -64,7 +64,6 @@ const DnDFlow = () => {
     setEdges((eds) => addEdge({ ...params, markerEnd: { type: "arrow", color: "#B1B1B7" } }, eds))
   }, [])
 
-  // target is the node that the node is dragged over
   const [target, setTarget] = useState(null)
 
   const onDragOver = useCallback((event) => {
@@ -134,21 +133,10 @@ const DnDFlow = () => {
     [nodes, edges]
   )
 
-  // const onNodeDragStop = (event, node) => {
-  //   const draggedNodeId = node.id
-  //   const groupNode = nodes.filter((n) => n.type === "group")
-
-  //   // if (groupNode) {
-  //   //   console.log("groupNode 입니다", groupNode[0].position)
-  //   //   console.log("움직인 노드 입니다", node)
-  //   // }
-  // }
-
   const onNodeDragStop = (event, node) => {
     const draggedNodeId = node.id
     // const groupNode = nodes.find((n) => n.type === "group")
     if (target && target.id !== draggedNodeId) {
-      // 노드를 합치는 로직을 구현합니다.
       const newNodes = nodes.filter((n) => n.id !== draggedNodeId && n.id !== target.id)
       const newEdges = edges.filter(
         (e) =>
@@ -159,12 +147,7 @@ const DnDFlow = () => {
         y: (node.position.y + target.position.y) / 2,
       }
       const newNodeLabel = `${target.data.label} , ${node.data.label}`
-      // const newNode = {
-      //   id: getId(),
-      //   type: "default",
-      //   data: { label: newNodeLabel },
-      //   position: newPosition,
-      // }
+
       const newNode = {
         id: getId(),
         type: "default",
@@ -172,7 +155,6 @@ const DnDFlow = () => {
         data: {
           label: newNodeLabel,
         },
-        style: { ...node.data.style, barkgroundColor: "#fccc" }, // 이전 노드의 스타일을 유지합니다.
       }
       setNodes([...newNodes, newNode])
       setEdges(newEdges)
@@ -196,6 +178,33 @@ const DnDFlow = () => {
 
     setTarget(targetNode)
   }
+
+  useEffect(() => {
+    if (nodes) {
+      setNodes((nodes) =>
+        nodes.map((node) => {
+          if (node.id === target?.id) {
+            target.style = { ...target?.style, backgroundColor: "#cff" }
+          }
+          return node
+        })
+      )
+    }
+
+    return () => {
+      if (nodes) {
+        setNodes((nodes) =>
+          nodes.map((node) => {
+            if (node.id === target?.id) {
+              // 이전 스타일을 복원
+              node.style = { ...target?.style, backgroundColor: "#fff" }
+            }
+            return node
+          })
+        )
+      }
+    }
+  }, [target])
 
   return (
     <div className="dndflow">
