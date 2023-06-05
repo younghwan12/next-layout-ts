@@ -79,8 +79,25 @@ img {
   height: 300px;
 } */
 
-.react-flow__node.react-flow__node-group {
+/* .react-flow__node.react-flow__node-group {
   background-color: rgba(255, 0, 0, 0.2);
   width: 300px;
   height: 300px;
+}
+ */
+
+.react-flow__node {
+  transition: background-color 0.3s, padding-left 0.3s, padding-right 0.3s;
+  border-radius: 20px;
+  padding: 10px 10px;
+  width: auto;
+  border-width: 2px;
+}
+
+.react-flow__node.dragging {
+  padding: 5px 5px;
+}
+
+.react-flow__node.is-dropzone {
+  border-style: dashed;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react"
+import React, { useState, useRef, useCallback, useEffect } from "react"
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -20,25 +20,27 @@ const initialNodes: Node[] = [
     data: { label: "김삿갓" },
     position: { x: 250, y: 5 },
   },
+  // {
+  //   id: "2b",
+  //   data: { label: "그룹2 구성원" },
+  //   position: { x: 400, y: 100 },
+  // },
+  // {
+  //   id: "2c",
+  //   data: { label: "그룹2 구성원2" },
+  //   position: { x: 350, y: 250 },
+  // },
   {
-    id: "2",
-    data: { label: "그룹" },
-    position: { x: 320, y: 200 },
-    type: "group",
+    id: "3",
+    type: "default",
+    data: { label: "합쳐질놈1" },
+    position: { x: 150, y: 150 },
   },
   {
-    id: "2b",
-    data: { label: "그룹2 구성원" },
-    position: { x: 100, y: 100 },
-    parentNode: "2",
-    extent: "parent",
-  },
-  {
-    id: "2c",
-    data: { label: "그룹2 구성원2" },
-    position: { x: 50, y: 150 },
-    parentNode: "2",
-    extent: "parent",
+    id: "4",
+    type: "default",
+    data: { label: "합쳐질놈2" },
+    position: { x: 50, y: 450 },
   },
 ]
 
@@ -61,6 +63,9 @@ const DnDFlow = () => {
     // params.markerEnd = arrowHeadType
     setEdges((eds) => addEdge({ ...params, markerEnd: { type: "arrow", color: "#B1B1B7" } }, eds))
   }, [])
+
+  // target is the node that the node is dragged over
+  const [target, setTarget] = useState(null)
 
   const onDragOver = useCallback((event) => {
     event.preventDefault()
@@ -129,45 +134,67 @@ const DnDFlow = () => {
     [nodes, edges]
   )
 
-  // const [selectedNodeId, setSelectedNodeId] = useState(null)
+  // const onNodeDragStop = (event, node) => {
+  //   const draggedNodeId = node.id
+  //   const groupNode = nodes.filter((n) => n.type === "group")
 
-  // const NodeClick = (event, node) => {
-  //   setSelectedNodeId(node.id)
+  //   // if (groupNode) {
+  //   //   console.log("groupNode 입니다", groupNode[0].position)
+  //   //   console.log("움직인 노드 입니다", node)
+  //   // }
   // }
 
   const onNodeDragStop = (event, node) => {
     const draggedNodeId = node.id
-    const groupNode = nodes.filter((n) => n.type === "group")
-
-    if (groupNode) {
-      // const groupNodePosition = groupNode.position;
-      // const draggedNodePosition = node.position;
-      // const groupNodeWidth = 200; // 그룹 노드의 너비
-      // const groupNodeHeight = 100; // 그룹 노드의 높이
-
-      // const isInsideGroup =
-      //   draggedNodePosition.x >= groupNodePosition.x &&
-      //   draggedNodePosition.y >= groupNodePosition.y &&
-      //   draggedNodePosition.x <= groupNodePosition.x + groupNodeWidth &&
-      //   draggedNodePosition.y <= groupNodePosition.y + groupNodeHeight;
-
-      // if (isInsideGroup) {
-      // const updatedNodes = nodes.map((n) => {
-      //   if (n.id === draggedNodeId) {
-      //     return {
-      //       ...n,
-      //       parentNode: groupNode.id,
-      //       extent: 'parent',
-      //     };
-      //   }
-      //   return n;
-      //   });
-
-      //   setNodes(updatedNodes);
-
-      console.log("groupNode 입니다", groupNode)
-      console.log("움직인 노드 입니다", node)
+    // const groupNode = nodes.find((n) => n.type === "group")
+    if (target && target.id !== draggedNodeId) {
+      // 노드를 합치는 로직을 구현합니다.
+      const newNodes = nodes.filter((n) => n.id !== draggedNodeId && n.id !== target.id)
+      const newEdges = edges.filter(
+        (e) =>
+          e.source !== draggedNodeId && e.target !== draggedNodeId && e.source !== target.id && e.target !== target.id
+      )
+      const newPosition = {
+        x: (node.position.x + target.position.x) / 2,
+        y: (node.position.y + target.position.y) / 2,
+      }
+      const newNodeLabel = `${target.data.label} , ${node.data.label}`
+      // const newNode = {
+      //   id: getId(),
+      //   type: "default",
+      //   data: { label: newNodeLabel },
+      //   position: newPosition,
+      // }
+      const newNode = {
+        id: getId(),
+        type: "default",
+        position: newPosition,
+        data: {
+          label: newNodeLabel,
+        },
+        style: { ...node.data.style, barkgroundColor: "#fccc" }, // 이전 노드의 스타일을 유지합니다.
+      }
+      setNodes([...newNodes, newNode])
+      setEdges(newEdges)
     }
+    setTarget(null)
+  }
+
+  const onNodeDrag = (evt, node) => {
+    const centerX = node.position.x + node.width / 2
+    const centerY = node.position.y + node.height / 2
+
+    // find a node where the center point is inside
+    const targetNode = nodes.find(
+      (n) =>
+        centerX > n.position.x &&
+        centerX < n.position.x + n.width &&
+        centerY > n.position.y &&
+        centerY < n.position.y + n.height &&
+        n.id !== node.id
+    )
+
+    setTarget(targetNode)
   }
 
   return (
@@ -201,6 +228,7 @@ const DnDFlow = () => {
             onConnect={onConnect}
             onInit={setReactFlowInstance}
             onNodeDragStop={onNodeDragStop}
+            onNodeDrag={onNodeDrag}
             onDrop={onDrop}
             onDragOver={onDragOver}
             onNodesDelete={onNodesDelete}

@@ -1,54 +1,107 @@
-// import React, { useState } from "react"
-// import ReactFlow, { MiniMap, Controls, Background, ReactFlowProvider } from "react-flow-renderer-pro"
+import React, { useEffect, useState, useRef } from "react"
+import ReactFlow, { useNodesState, useEdgesState, Panel } from "reactflow"
 
-// const initialElements = [
-//   {
-//     id: "1",
-//     type: "input",
-//     data: { label: "Input Node" },
-//     position: { x: 250, y: 5 },
-//   },
-//   {
-//     id: "2",
-//     type: "default",
-//     data: { label: "Default Node" },
-//     position: { x: 100, y: 100 },
-//   },
-//   {
-//     id: "3",
-//     type: "output",
-//     data: { label: "Output Node" },
-//     position: { x: 250, y: 200 },
-//   },
-// ]
+import "reactflow/dist/style.css"
 
-// const DynamicGroupingExample = () => {
-//   const [elements, setElements] = useState(initialElements)
+const panelStyle = {
+  fontSize: 12,
+  color: "#777",
+}
+import { nodes as initialNodes, edges as initialEdges } from "./initial-elements"
 
-//   const onGroupElements = (event, elements) => {
-//     const groupNode = {
-//       id: "group",
-//       type: "group",
-//       position: { x: event.clientX, y: event.clientY },
-//       data: { label: "Group" },
-//       style: { width: 200, height: 200 },
-//       children: elements.map((el) => el.id),
-//     }
+import { Node } from "@reactflow/core/dist/esm/types/nodes"
 
-//     setElements((els) => els.concat(groupNode))
-//   }
+const CollisionDetectionFlow = () => {
+  // this ref stores the current dragged node
+  const dragRef = useRef(null)
 
-//   return (
-//     <div style={{ height: "100vh" }}>
-//       <ReactFlowProvider>
-//         <ReactFlow elements={elements} onGroupElements={onGroupElements}>
-//           <MiniMap />
-//           <Controls />
-//           <Background />
-//         </ReactFlow>
-//       </ReactFlowProvider>
-//     </div>
-//   )
-// }
+  // target is the node that the node is dragged over
+  const [target, setTarget] = useState(null)
 
-// export default DynamicGroupingExample
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(null)
+
+  const onNodeDragStart = (evt, node) => {
+    dragRef.current = node
+  }
+
+  const onNodeDrag = (evt, node) => {
+    // calculate the center point of the node from position and dimensions
+    const centerX = node.position.x + node.width / 2
+    const centerY = node.position.y + node.height / 2
+
+    // find a node where the center point is inside
+    const targetNode = nodes.find(
+      (n) =>
+        centerX > n.position.x &&
+        centerX < n.position.x + n.width &&
+        centerY > n.position.y &&
+        centerY < n.position.y + n.height &&
+        n.id !== node.id // this is needed, otherwise we would always find the dragged node
+    )
+
+    setTarget(targetNode)
+  }
+
+  const onNodeDragStop = (evt, node) => {
+    // on drag stop, we swap the colors of the nodes
+    const nodeColor = node.data.label
+    const targetColor = target?.data.label
+
+    setNodes((nodes) =>
+      nodes.map((n) => {
+        if (n.id === target?.id) {
+          n.data = { ...n.data, color: nodeColor, label: nodeColor }
+        }
+        if (n.id === node.id && target) {
+          n.data = { ...n.data, color: targetColor, label: targetColor }
+        }
+        return n
+      })
+    )
+
+    setTarget(null)
+    dragRef.current = null
+  }
+
+  useEffect(() => {
+    // whenever the target changes, we swap the colors temporarily
+    // this is just a placeholder, implement your own logic here
+    setNodes((nodes) =>
+      nodes.map((node) => {
+        if (node.id === target?.id) {
+          node.style = { ...node.style, backgroundColor: dragRef.current?.data.color }
+          node.data = { ...node.data, label: dragRef.current?.data.color }
+        } else if (node.id === dragRef.current?.id && target) {
+          node.style = { ...node.style, backgroundColor: target.data.color }
+          node.data = { ...node.data, label: target.data.color }
+        } else {
+          node.style = { ...node.style, backgroundColor: node.data.color }
+          node.data = { ...node.data, label: node.data.color }
+        }
+        return node
+      })
+    )
+  }, [target])
+
+  return (
+    <div className="container">
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        fitView
+        onNodeDragStart={onNodeDragStart}
+        onNodeDrag={onNodeDrag}
+        onNodeDragStop={onNodeDragStop}
+      >
+        <Panel position="top-left" style={panelStyle}>
+          Drop any node on top of another node to swap their colors
+        </Panel>
+      </ReactFlow>
+    </div>
+  )
+}
+
+export default CollisionDetectionFlow
