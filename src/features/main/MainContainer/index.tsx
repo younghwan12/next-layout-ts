@@ -184,7 +184,7 @@ const DnDFlow = () => {
       setNodes((nodes) =>
         nodes.map((node) => {
           if (node.id === target?.id) {
-            target.style = { ...target?.style, backgroundColor: "#cff" }
+            target.style = { ...target?.style, backgroundColor: "#F3B3B3" }
           }
           return node
         })

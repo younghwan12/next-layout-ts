@@ -7,7 +7,6 @@ const panelStyle = {
   fontSize: 12,
   color: "#777",
 }
-import { nodes as initialNodes, edges as initialEdges } from "./initial-elements"
 
 import { Node } from "@reactflow/core/dist/esm/types/nodes"
 
@@ -18,7 +17,7 @@ const CollisionDetectionFlow = () => {
   // target is the node that the node is dragged over
   const [target, setTarget] = useState(null)
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+  const [nodes, setNodes, onNodesChange] = useNodesState(null)
   const [edges, setEdges, onEdgesChange] = useEdgesState(null)
 
   const onNodeDragStart = (evt, node) => {
