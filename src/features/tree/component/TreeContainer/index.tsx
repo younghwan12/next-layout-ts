@@ -2,6 +2,11 @@ import { arrayToTree } from "@/common/utils/treeUtil/arrayToTree"
 import React, { useEffect, useState } from "react"
 import { TreeTable } from "primereact/treetable"
 import { Column } from "primereact/column"
+
+interface TreeItem extends treeType {
+  children?: TreeItem[]
+}
+
 interface treeType {
   key: string
   parent_key: string
@@ -13,7 +18,7 @@ interface treeType {
 }
 const dummyData: treeType[] = [
   {
-    key: " 1",
+    key: "1",
     parent_key: "0",
     data: {
       name: "React",
@@ -79,7 +84,7 @@ const dummyData: treeType[] = [
 ]
 
 const TreeContainer = () => {
-  const [treeData, setTreeData] = useState(dummyData)
+  const [treeData, setTreeData] = useState<TreeItem[]>(dummyData)
   useEffect(() => {
     if (dummyData && dummyData.length > 0) {
       const treeData = arrayToTree(dummyData, {
@@ -88,7 +93,7 @@ const TreeContainer = () => {
         dataField: null,
         rootParentIds: { [String(dummyData[0].parent_key)]: true },
       })
-      setTreeData(treeData as treeType[])
+      setTreeData(treeData as TreeItem[])
     }
   }, [dummyData])
 
