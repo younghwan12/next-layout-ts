@@ -101,3 +101,8 @@ img {
 .react-flow__node.is-dropzone {
   border-style: dashed;
 }
+
+/* button */
+.ant-btn-primary {
+  background: #1677ff;
+}

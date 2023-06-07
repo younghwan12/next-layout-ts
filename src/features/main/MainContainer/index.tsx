@@ -12,6 +12,7 @@ import "reactflow/dist/style.css"
 import { Button } from "antd"
 
 import { Node } from "@reactflow/core/dist/esm/types/nodes"
+import { useModal } from "@/common"
 
 const initialNodes: Node[] = [
   {
@@ -52,15 +53,9 @@ const MainContainer = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
+  const [modal, contextHolder] = useModal()
 
-  // const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [])
   const onConnect = useCallback((params) => {
-    // 화살표 추가!
-    // const arrowHeadType = {
-    //   type: "arrow",
-    //   color: "#f00",
-    // }
-    // params.markerEnd = arrowHeadType
     setEdges((eds) => addEdge({ ...params, markerEnd: { type: "arrow", color: "#B1B1B7" } }, eds))
   }, [])
 
@@ -77,6 +72,9 @@ const MainContainer = () => {
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
       const type = event.dataTransfer.getData("application/reactflow")
+      const nodeName = event.dataTransfer.getData("application/nodeName")
+
+      console.log(nodeName)
 
       if (typeof type === "undefined" || !type) {
         return
@@ -91,10 +89,13 @@ const MainContainer = () => {
         type,
         position,
         // 이름 Drag 가져오는거
-        data: { label: `${type} node` },
+        data: { label: `${nodeName}` },
       }
 
       setNodes((nds) => nds.concat(newNode))
+
+      console.log("newNode", newNode)
+      console.log("event", event)
     },
     [reactFlowInstance]
   )
@@ -106,8 +107,9 @@ const MainContainer = () => {
     }
   }, [reactFlowInstance])
 
-  const onDragStart = (event, nodeType) => {
+  const onDragStart = (event, nodeType, nodeName) => {
     event.dataTransfer.setData("application/reactflow", nodeType)
+    event.dataTransfer.setData("application/nodeName", nodeName)
     event.dataTransfer.effectAllowed = "move"
   }
 
@@ -136,8 +138,8 @@ const MainContainer = () => {
   const onNodeDragStop = (event, node) => {
     const draggedNodeId = node.id
 
-    // console.log("node", node.type)
-    // console.log("target", target?.type)
+    console.log("node", node.type)
+    console.log("target", target?.type)
     if (target && target.id !== draggedNodeId) {
       const newNodes = nodes.filter((n) => n.id !== draggedNodeId && n.id !== target.id)
       const newEdges = edges.filter(
@@ -149,21 +151,24 @@ const MainContainer = () => {
         y: (node.position.y + target.position.y) / 2,
       }
 
-      if (node?.type === "default") {
-        if (target?.type === "default") {
-          const newNodeLabel = `${target.data.label} , ${node.data.label}`
+      if (node?.type === target?.type) {
+        const newNodeLabel = `${target.data.label} , ${node.data.label}`
 
-          const newNode = {
-            id: getId(),
-            type: "default",
-            position: newPosition,
-            data: {
-              label: newNodeLabel,
-            },
-          }
-
-          setNodes([...newNodes, newNode])
+        const newNode = {
+          id: getId(),
+          type: target.type,
+          position: newPosition,
+          data: {
+            label: newNodeLabel,
+          },
         }
+
+        setNodes([...newNodes, newNode])
+        // }
+      } else {
+        modal.warning({
+          title: "타입을 일치시켜주세요!",
+        })
       }
       setEdges(newEdges)
     }
@@ -192,9 +197,7 @@ const MainContainer = () => {
       setNodes((nodes) =>
         nodes.map((node) => {
           if (node.id === target?.id) {
-            // if (target?.type === "default") {
             target.style = { ...target?.style, backgroundColor: "#F3B3B3" }
-            // }
           }
           return node
         })
@@ -220,16 +223,32 @@ const MainContainer = () => {
     <div className="dndflow">
       <aside style={{ position: "relative" }}>
         <div className="description">데이터 불러오기</div>
-        <div className="dndnode input" onDragStart={(event) => onDragStart(event, "input")} draggable>
+        <div
+          className="dndnode input"
+          onDragStart={(event) => onDragStart(event, "input", event.currentTarget.innerText)}
+          draggable
+        >
           시작
         </div>
-        <div className="dndnode" onDragStart={(event) => onDragStart(event, "default")} draggable>
+        <div
+          className="dndnode"
+          onDragStart={(event) => onDragStart(event, "default", event.currentTarget.innerText)}
+          draggable
+        >
           과정
         </div>
-        <div className="dndnode output" onDragStart={(event) => onDragStart(event, "output")} draggable>
+        <div
+          className="dndnode output"
+          onDragStart={(event) => onDragStart(event, "output", event.currentTarget.innerText)}
+          draggable
+        >
           마무리
         </div>
-        <div className="dndnode group" onDragStart={(event) => onDragStart(event, "group")} draggable>
+        <div
+          className="dndnode group"
+          onDragStart={(event) => onDragStart(event, "group", event.currentTarget.innerText)}
+          draggable
+        >
           그룹
         </div>
 
@@ -255,6 +274,7 @@ const MainContainer = () => {
           />
         </div>
       </ReactFlowProvider>
+      {contextHolder}
     </div>
   )
 }
