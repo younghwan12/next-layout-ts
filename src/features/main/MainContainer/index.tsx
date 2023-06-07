@@ -18,19 +18,9 @@ const initialNodes: Node[] = [
   {
     id: "1",
     type: "input",
-    data: { label: "김삿갓" },
+    data: { label: `김삿갓 \n 삿갓삿갓` },
     position: { x: 250, y: 5 },
   },
-  // {
-  //   id: "2b",
-  //   data: { label: "그룹2 구성원" },
-  //   position: { x: 400, y: 100 },
-  // },
-  // {
-  //   id: "2c",
-  //   data: { label: "그룹2 구성원2" },
-  //   position: { x: 350, y: 250 },
-  // },
   {
     id: "3",
     type: "default",
@@ -74,8 +64,6 @@ const MainContainer = () => {
       const type = event.dataTransfer.getData("application/reactflow")
       const nodeName = event.dataTransfer.getData("application/nodeName")
 
-      console.log(nodeName)
-
       if (typeof type === "undefined" || !type) {
         return
       }
@@ -93,9 +81,6 @@ const MainContainer = () => {
       }
 
       setNodes((nds) => nds.concat(newNode))
-
-      console.log("newNode", newNode)
-      console.log("event", event)
     },
     [reactFlowInstance]
   )
@@ -138,8 +123,6 @@ const MainContainer = () => {
   const onNodeDragStop = (event, node) => {
     const draggedNodeId = node.id
 
-    console.log("node", node.type)
-    console.log("target", target?.type)
     if (target && target.id !== draggedNodeId) {
       const newNodes = nodes.filter((n) => n.id !== draggedNodeId && n.id !== target.id)
       const newEdges = edges.filter(
@@ -152,7 +135,7 @@ const MainContainer = () => {
       }
 
       if (node?.type === target?.type) {
-        const newNodeLabel = `${target.data.label} , ${node.data.label}`
+        const newNodeLabel = `${target.data.label} \n ${node.data.label}`
 
         const newNode = {
           id: getId(),
@@ -244,13 +227,13 @@ const MainContainer = () => {
         >
           마무리
         </div>
-        <div
+        {/* <div
           className="dndnode group"
           onDragStart={(event) => onDragStart(event, "group", event.currentTarget.innerText)}
           draggable
         >
           그룹
-        </div>
+        </div> */}
 
         <Button style={{ position: "absolute", left: "5%", bottom: "2%" }} onClick={onSave}>
           저장(콘솔)
