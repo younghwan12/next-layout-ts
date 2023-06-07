@@ -1,12 +1,12 @@
 import { TreeContainer } from "@/features/tree/component"
-import { Layout } from "@/layout"
-import React from "react"
+import dynamic from "next/dynamic"
 
 const TreePage = () => {
+  const DynamicLayout = dynamic(() => import("@/layout/Layout"))
   return (
-    <Layout>
+    <DynamicLayout>
       <TreeContainer />
-    </Layout>
+    </DynamicLayout>
   )
 }
 

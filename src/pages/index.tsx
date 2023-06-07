@@ -1,12 +1,12 @@
 import { MainContainer } from "@/features/main"
-import { Layout } from "@/layout"
-import React from "react"
+import dynamic from "next/dynamic"
 
 const MainPage = () => {
+  const DynamicLayout = dynamic(() => import("@/layout/Layout"))
   return (
-    <Layout>
+    <DynamicLayout>
       <MainContainer />
-    </Layout>
+    </DynamicLayout>
   )
 }
 
