@@ -47,7 +47,7 @@ const initialNodes: Node[] = [
 let id = 0
 const getId = () => `dndnode_${id++}`
 
-const DnDFlow = () => {
+const MainContainer = () => {
   const reactFlowWrapper = useRef(null)
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
@@ -135,7 +135,9 @@ const DnDFlow = () => {
 
   const onNodeDragStop = (event, node) => {
     const draggedNodeId = node.id
-    // const groupNode = nodes.find((n) => n.type === "group")
+
+    // console.log("node", node.type)
+    // console.log("target", target?.type)
     if (target && target.id !== draggedNodeId) {
       const newNodes = nodes.filter((n) => n.id !== draggedNodeId && n.id !== target.id)
       const newEdges = edges.filter(
@@ -146,17 +148,23 @@ const DnDFlow = () => {
         x: (node.position.x + target.position.x) / 2,
         y: (node.position.y + target.position.y) / 2,
       }
-      const newNodeLabel = `${target.data.label} , ${node.data.label}`
 
-      const newNode = {
-        id: getId(),
-        type: "default",
-        position: newPosition,
-        data: {
-          label: newNodeLabel,
-        },
+      if (node?.type === "default") {
+        if (target?.type === "default") {
+          const newNodeLabel = `${target.data.label} , ${node.data.label}`
+
+          const newNode = {
+            id: getId(),
+            type: "default",
+            position: newPosition,
+            data: {
+              label: newNodeLabel,
+            },
+          }
+
+          setNodes([...newNodes, newNode])
+        }
       }
-      setNodes([...newNodes, newNode])
       setEdges(newEdges)
     }
     setTarget(null)
@@ -184,7 +192,9 @@ const DnDFlow = () => {
       setNodes((nodes) =>
         nodes.map((node) => {
           if (node.id === target?.id) {
+            // if (target?.type === "default") {
             target.style = { ...target?.style, backgroundColor: "#F3B3B3" }
+            // }
           }
           return node
         })
@@ -249,4 +259,4 @@ const DnDFlow = () => {
   )
 }
 
-export default DnDFlow
+export default MainContainer

@@ -97,12 +97,6 @@ const TreeContainer = () => {
     }
   }, [dummyData])
 
-  useEffect(() => {
-    if (treeData) {
-      console.log(treeData)
-    }
-  }, [treeData])
-
   return (
     <>
       <TreeTable value={treeData} tableStyle={{ minWidth: "50rem" }}>
