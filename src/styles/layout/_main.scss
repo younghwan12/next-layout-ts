@@ -62,3 +62,13 @@ a {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 6px;
 }
+
+
+.ck.ck-content:not(.ck-comment__input *) {
+  height: 300px;
+  overflow-y: auto;
+}
+
+.ck-body-wrapper {
+  display: none;
+}

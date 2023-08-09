@@ -36,7 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     },
     {
       key: "3",
-      label: "3페이지",
+      label: <Link href="/text">TextEditor</Link>,
     },
   ]
 
