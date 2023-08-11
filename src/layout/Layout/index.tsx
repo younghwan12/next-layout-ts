@@ -38,6 +38,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       key: "3",
       label: <Link href="/text">TextEditor</Link>,
     },
+    {
+      key: "4",
+      label: <Link href="/test">TestPage</Link>,
+    },
   ]
 
   const router = useRouter()
