@@ -7,6 +7,7 @@ import ReactFlow, {
   getIncomers,
   getOutgoers,
   getConnectedEdges,
+  Background,
 } from "reactflow"
 import "reactflow/dist/style.css"
 import { Button } from "antd"
@@ -19,19 +20,19 @@ const initialNodes: Node[] = [
     id: "1",
     type: "input",
     data: { label: `김삿갓 \n 삿갓삿갓` },
-    position: { x: 250, y: 5 },
+    position: { x: 100, y: 100 },
   },
   {
     id: "3",
     type: "default",
     data: { label: "합쳐질놈1" },
-    position: { x: 150, y: 150 },
+    position: { x: 100, y: 200 },
   },
   {
     id: "4",
     type: "default",
     data: { label: "합쳐질놈2" },
-    position: { x: 50, y: 450 },
+    position: { x: 100, y: 300 },
   },
 ]
 
@@ -122,6 +123,21 @@ const MainContainer = () => {
 
   const onNodeDragStop = (event, node) => {
     const draggedNodeId = node.id
+
+    const newNodes = nodes.map((n) => {
+      if (n.id === draggedNodeId) {
+        return {
+          ...n,
+          position: {
+            x: Math.round(n.position.x / 100) * 100,
+            y: Math.round(n.position.y / 100) * 100,
+          },
+        };
+      }
+      return n;
+  });
+
+  setNodes([...newNodes])
 
     if (target && target.id !== draggedNodeId) {
       const newNodes = nodes.filter((n) => n.id !== draggedNodeId && n.id !== target.id)
@@ -253,8 +269,11 @@ const MainContainer = () => {
             onDrop={onDrop}
             onDragOver={onDragOver}
             onNodesDelete={onNodesDelete}
+            defaultViewport={{x: 0, y: 0, zoom: 1}}
             // onNodeClick={NodeClick}
-          />
+          >
+            <Background color="#ccc" lineWidth={1} gap={100} variant={'lines'} />
+            </ReactFlow>
         </div>
       </ReactFlowProvider>
       {contextHolder}
