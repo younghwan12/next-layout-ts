@@ -2,7 +2,7 @@ import { TextContainer } from "@/features/text/component"
 import { Layout } from "@/layout"
 import dynamic from "next/dynamic"
 
-const TreePage = () => {
+const TextPage = () => {
   const DynamicLayout = dynamic(() => import("@/layout/Layout"))
   return (
     <DynamicLayout>
@@ -11,4 +11,4 @@ const TreePage = () => {
   )
 }
 
-export default TreePage
+export default TextPage

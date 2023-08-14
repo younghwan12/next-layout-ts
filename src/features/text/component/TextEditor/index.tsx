@@ -1,26 +1,25 @@
-import { Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Spin } from "antd"
+import React, { useEffect, useState } from "react"
 
-function CKEditorComponent({data, setData}) {
-  const [editorLoaded, setEditorLoaded] = useState(false);
-  const [editorContent, setEditorContent] = useState('');
+function CKEditorComponent({ data, setData, editorLoaded, setEditorLoaded }) {
+  const [editorContent, setEditorContent] = useState("")
 
   useEffect(() => {
-    import('@ckeditor/ckeditor5-react')
+    import("@ckeditor/ckeditor5-react")
       .then(({ CKEditor }) => {
-        setEditorLoaded(true);
+        setEditorLoaded(true)
       })
-      .catch(error => {
-        console.error('Error loading CKEditor:', error);
-      });
-  }, []);
+      .catch((error) => {
+        console.error("Error loading CKEditor:", error)
+      })
+  }, [])
 
   if (!editorLoaded) {
-    return <Spin />;
+    return <div>불러오는중 입니다..</div>
   }
 
-  const { CKEditor } = require('@ckeditor/ckeditor5-react');
-  const Editor = require('ckeditor5-custom-build/build/ckeditor');
+  const { CKEditor } = require("@ckeditor/ckeditor5-react")
+  const Editor = require("ckeditor5-custom-build/build/ckeditor")
 
   return (
     <div>
@@ -28,12 +27,12 @@ function CKEditorComponent({data, setData}) {
         editor={Editor}
         data={data}
         onChange={(event, editor) => {
-          const data = editor.getData();
-          setData(data);
+          const data = editor.getData()
+          setData(data)
         }}
       />
     </div>
-  ); 
+  )
 }
 
-export default CKEditorComponent;
+export default CKEditorComponent
