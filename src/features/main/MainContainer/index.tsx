@@ -132,12 +132,12 @@ const MainContainer = () => {
             x: Math.round(n.position.x / 100) * 100,
             y: Math.round(n.position.y / 100) * 100,
           },
-        };
+        }
       }
-      return n;
-  });
+      return n
+    })
 
-  setNodes([...newNodes])
+    setNodes([...newNodes])
 
     if (target && target.id !== draggedNodeId) {
       const newNodes = nodes.filter((n) => n.id !== draggedNodeId && n.id !== target.id)
@@ -269,11 +269,11 @@ const MainContainer = () => {
             onDrop={onDrop}
             onDragOver={onDragOver}
             onNodesDelete={onNodesDelete}
-            defaultViewport={{x: 0, y: 0, zoom: 1}}
+            defaultViewport={{ x: 0, y: 0, zoom: 1 }}
             // onNodeClick={NodeClick}
           >
-            <Background color="#ccc" lineWidth={1} gap={100} variant={'lines'} />
-            </ReactFlow>
+            <Background color="#ccc" lineWidth={1} gap={100} variant={"lines"} />
+          </ReactFlow>
         </div>
       </ReactFlowProvider>
       {contextHolder}
