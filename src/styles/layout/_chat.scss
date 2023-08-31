@@ -7,14 +7,14 @@
   color: coral;
 }
 .msg-wrapper {
-  background: #fce7e7;
+  border: 1px solid #edecec;
   border-radius: 25px;
   display: flex;
   position: relative;
   flex-direction: column-reverse;
   width: 100%;
   height: calc(100% - 60px);
-  padding: 1rem 0.5rem 1.5rem;
+  padding: 1rem 1.5rem 1.5rem;
   overflow: hidden scroll;
   transition: background-color 0.2s linear 0s;
   > article {
