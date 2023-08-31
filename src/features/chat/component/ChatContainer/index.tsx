@@ -126,16 +126,14 @@ const ChatContainer = () => {
 
   return (
     <div>
-      <div>
+      <div className="chat_wrap">
         {chatMessages.length ? (
           chatMessages.map((chatMessage, i) => (
-            <div key={"msg_" + i} className="mt-1 text-black dark:text-white">
-              <span
-                className={chatMessage.userName === userName ? `text-red-500` : `text-slate-800 dark:text-slate-200`}
-              >
+            <div key={"msg_" + i} className="chat">
+              <span className={chatMessage.userName === userName ? `chat_me` : `text-slate-800 dark:text-slate-200`}>
                 {chatMessage.userName === userName ? "[나]" : `[${chatMessage.userName}]`}
-              </span>
-              : {chatMessage.message}
+              </span>{" "}
+              {chatMessage.message}
             </div>
           ))
         ) : (

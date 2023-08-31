@@ -1,0 +1,65 @@
+.ant-layout-content {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.msg-wrapper {
+  display: flex;
+  position: relative;
+  flex-direction: column-reverse;
+  width: 100%;
+  height: calc(100% - 94px);
+  padding: 1rem 0.1rem 1.5rem;
+  overflow: hidden scroll;
+  transition: background-color 0.2s linear 0s;
+  > article {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    padding: 0.1rem 0.3rem;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+}
+.lkFPuq {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  padding: 0.1rem 0.3rem;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  width: 100%;
+  .msg-container {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    align-self: flex-end;
+    max-width: 65%;
+    gap: 0.2rem;
+    margin-top: 0.5rem;
+    .msg-wrapper {
+      border-radius: 1rem 1rem 1rem 0px;
+      overflow: hidden;
+      .msg-text {
+        font-family: "Open Sans", sans-serif;
+        display: inline-block;
+        padding: 0.4rem 0.5rem;
+        font-weight: 400;
+        color: rgb(241, 241, 241);
+        background: rgb(12, 141, 113);
+        transition: background-color 0.2s linear 0s;
+      }
+    }
+  }
+}
+.chat_text {
+  margin: 16px;
+}
+.chat {
+}
