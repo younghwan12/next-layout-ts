@@ -5,6 +5,7 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
+  MessageOutlined,
 } from "@ant-design/icons"
 import { Menu, Button, theme, Layout as AntdLayout } from "antd"
 import {} from "antd"
@@ -13,7 +14,8 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 const { Header, Sider, Content } = AntdLayout
 import type { MenuProps } from "antd"
-
+import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons"
+import { FloatButton } from "antd"
 interface LayoutProps {
   children: React.ReactNode
 }
@@ -90,6 +92,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           {children}
         </Content>
       </AntdLayout>
+      <FloatButton.Group trigger="click" type="primary" style={{ right: 24 }} icon={<CustomerServiceOutlined />}>
+        <FloatButton tooltip="다크 모드" icon={<CommentOutlined />} />
+        <FloatButton tooltip="문의 하기" icon={<MessageOutlined />} />
+      </FloatButton.Group>
     </AntdLayout>
   )
 }

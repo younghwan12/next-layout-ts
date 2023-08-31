@@ -98,7 +98,7 @@ const TestContainer = () => {
     return (
       <div className="flex items-center p-4 mx-auto justify-center">
         <div className="gap-4 flex flex-col items-center justify-center w-full h-full">
-          <div className="bg-slate-50 dark:bg-slate-950 p-4 h-20">
+          <div className=" p-4 h-20">
             <Input
               value={userNameInput}
               disabled={!connected}
@@ -130,11 +130,16 @@ const TestContainer = () => {
         {chatMessages.length ? (
           chatMessages
             .map((chatMessage, i) => (
-              <article className="lkFPuq">
-                <div key={"msg_" + i} className="msg-container">
+              <article
+                key={"msg_" + i}
+                className={`lkFPuq ${chatMessage.userName === userName ? "fxcol" : ""} ${
+                  chatMessage.userName === "Bot" ? "font-big" : ""
+                }`}
+              >
+                <div className="msg-box">
                   <div>
                     <span className={chatMessage.userName === userName ? `logged-user msg-text` : `msg-text`}>
-                      {chatMessage.userName === userName ? "[나]" : `[${chatMessage.userName}]`}
+                      {/* {chatMessage.userName === userName ? "[나]" : `[${chatMessage.userName}]`} */}
                       {chatMessage.message}
                     </span>
                   </div>
