@@ -7,15 +7,18 @@ import "primereact/resources/primereact.css"
 import "primereact/resources/themes/lara-light-indigo/theme.css"
 import "primeflex/primeflex.css"
 
+import { Provider } from "react-redux"
+import { persistor, store } from "../redux/store"
+
 const App = ({ Component, pageProps }: AppProps) => {
   PrimeReact.ripple = true
   return (
-    <>
+    <Provider store={store}>
       <Head>
         <title>Layout</title>
       </Head>
       <Component {...pageProps} />
-    </>
+    </Provider>
   )
 }
 export default App

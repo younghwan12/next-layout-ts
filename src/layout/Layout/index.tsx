@@ -48,6 +48,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       key: "5",
       label: <Link href="/chat">Chatting Test</Link>,
     },
+    {
+      key: "6",
+      label: <Link href="/apitest">Api Test</Link>,
+    },
   ]
 
   const router = useRouter()

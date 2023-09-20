@@ -73,8 +73,16 @@ img {
   }
 }
 
-.react-flow__node.dragging {
-  padding: 5px;
+/* .react-flow__node.dragging {
+  border-color: red !important;
+} */
+/* .react-flow__node-input.selectable.selected,
+.react-flow__node-input.selectable:focus {
+  box-shadow: none !important;
+} */
+
+.ant-select {
+  width: 150px;
 }
 
 .react-flow__node.is-dropzone {
