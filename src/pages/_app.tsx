@@ -16,6 +16,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <Provider store={store}>
       <Head>
         <title>Layout</title>
+        <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet" />
       </Head>
       <Component {...pageProps} />
     </Provider>

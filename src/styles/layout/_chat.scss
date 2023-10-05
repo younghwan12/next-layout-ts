@@ -6,6 +6,70 @@
 .chat_me {
   color: coral;
 }
+// 2023-10-05
+.main_Wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.main_Wrapper_footer {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  min-height: 50px;
+  max-height: 200px;
+  overflow: auto;
+  padding: 6px;
+  z-index: 100;
+  background-color: rgb(238, 238, 238);
+}
+// .uFNas {
+//   position: absolute;
+//   inset: 50px 0px 65px;
+//   overflow: auto;
+//   width: 100%;
+// }
+.eTmjrj {
+  text-align: right;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.eTmjrj .ChatBlock__ChatWrapper-sc-1tikh8m-0 {
+  background-color: rgb(255, 236, 66);
+  text-align: left;
+  span {
+    position: absolute;
+    display: inline-block;
+    &.time {
+      min-width: 65px;
+      text-align: right;
+      bottom: 0px;
+      left: -70px;
+    }
+    &.not-read {
+      color: rgb(255, 236, 66);
+      min-width: 30px;
+      text-align: right;
+      bottom: 16px;
+      left: -35px;
+    }
+  }
+}
+.iCmNFm {
+  position: relative;
+  display: inline-block;
+  padding: 7px 8px;
+  border-radius: 4px;
+  margin-bottom: 7px;
+  box-shadow: rgb(143, 171, 199) 0px 1px 2px 0px;
+  max-width: 70%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
 .msg-wrapper {
   border: 1px solid #edecec;
   border-radius: 25px;

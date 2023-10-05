@@ -28,6 +28,22 @@ const ApiTestContainer = () => {
     setKeyWord(value)
   }
 
+  const [first, setFirst] = useState(0)
+  const [rows, setRows] = useState(5)
+  // 페이징 처리
+
+  const onPageChange = (e) => {
+    setFirst(e.first)
+    setRows(e.rows)
+
+    console.log("첫 페이지 :", e.first)
+    console.log("보여줄 수량:", e.rows)
+    // getCdList({
+    //   page_startnum: e.first + 1,
+    //   page_endnum: e.first + rows,
+    // });
+  }
+
   return (
     <>
       <div className="flex nojs">
@@ -57,7 +73,18 @@ const ApiTestContainer = () => {
           검색
         </Button>
       </div>
-      <DataTable value={tableData && tableData} showGridlines selectionMode={"checkbox"} rowHover={true} size="small">
+      <DataTable
+        value={tableData && tableData}
+        showGridlines
+        selectionMode={"checkbox"}
+        rowHover={true}
+        size="small"
+        paginator
+        rows={rows}
+        first={first}
+        onPage={onPageChange}
+        rowsPerPageOptions={[5, 10, 15]}
+      >
         <Column field="group_code_id" header="그룹코드ID"></Column>
         <Column field="group_code_name" header="그룹코드명"></Column>
         <Column field="sub_code_id" header="서브코드ID"></Column>

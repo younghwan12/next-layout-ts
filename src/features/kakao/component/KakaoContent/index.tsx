@@ -1,23 +1,24 @@
 import LoadingDots from "@/component/loading/Loading"
-import { Button, Input } from "antd"
-import React, { useState, useEffect, useRef } from "react"
+import { Input } from "@mui/material"
+import { Button } from "antd"
+import TextArea from "antd/es/input/TextArea"
+import React, { useEffect, useRef, useState } from "react"
 import { io as ClientIO } from "socket.io-client"
-const { TextArea } = Input
 
 interface IChatMessage {
   userName: string
   message: string
 }
 
-// component
-const ChatContainer = () => {
+const KaKaoContent = () => {
+  const [chatMessages, setChatMessages] = useState<IChatMessage[]>([])
+
   const inputRef = useRef(null)
 
   // connected flag
   const [connected, setConnected] = useState<boolean>(false)
 
   // init chat and message
-  const [chatMessages, setChatMessages] = useState<IChatMessage[]>([])
   const [messageInput, setMessageInput] = useState<string>("")
   const [userNameInput, setUserNameInput] = useState<string>("")
   const [userName, setUserName] = useState<string>("")
@@ -125,26 +126,24 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="main_Wrapper">
-      <div className="Content__Wrapper-sc-1cjm3se-0 uFNas">
-        {chatMessages.length ? (
-          chatMessages.map((chatMessage, i) => (
-            <div key={"msg_" + i} className={`chat ${chatMessage.userName === userName ? "eTmjrj" : ""}`}>
-              <div>
-                <div
-                  className={`ChatBlock__ChatWrapper-sc-1tikh8m-0 ${chatMessage.userName === userName ? "iCmNFm" : ""}`}
-                >
-                  {chatMessage.message}
-                  <span className="not-read">1</span>
-                  <span className="time">오후 2:37</span>
-                </div>
+    <main className="Content__Wrapper-sc-1cjm3se-0 uFNas">
+      {chatMessages.length ? (
+        chatMessages.map((chatMessage, i) => (
+          <div key={"msg_" + i} className={`chat ${chatMessage.userName === userName ? "eTmjrj" : ""}`}>
+            <div>
+              <div
+                className={`ChatBlock__ChatWrapper-sc-1tikh8m-0 ${chatMessage.userName === userName ? "iCmNFm" : ""}`}
+              >
+                {chatMessage.message}
+                <span className="not-read">1</span>
+                <span className="time">오후 2:37</span>
               </div>
             </div>
-          ))
-        ) : (
-          <div className="text-sm text-center text-gray-600 dark:text-gray-400 py-6">No chat messages</div>
-        )}
-      </div>
+          </div>
+        ))
+      ) : (
+        <div className="text-sm text-center text-gray-600 dark:text-gray-400 py-6">No chat messages</div>
+      )}
       <div className="main_Wrapper_footer">
         <TextArea
           ref={inputRef}
@@ -171,8 +170,8 @@ const ChatContainer = () => {
           보내기
         </Button>
       </div>
-    </div>
+    </main>
   )
 }
 
-export default ChatContainer
+export default KaKaoContent
