@@ -1,3 +1,35 @@
+// import { NextApiResponseServerIO } from "@/types/chat"
+// import { Server as NetServer } from "http"
+// import { NextApiRequest } from "next"
+// import { Server as ServerIO } from "socket.io"
+
+// export const config = {
+//   api: {
+//     bodyParser: false,
+//   },
+// }
+
+// const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
+//   if (!res.socket.server.io) {
+//     console.log("탄다")
+//     const path = "/api/socket/io"
+//     console.log(`New Socket.io server... to ${path}`)
+//     // adapt Next's net Server to http Server
+//     const httpServer: NetServer = res.socket.server as any
+//     const io = new ServerIO(httpServer, {
+//       path: path,
+//       addTrailingSlash: false,
+//     })
+//     // append SocketIO server to Next.js socket server response
+//     res.socket.server.io = io
+//   } else {
+//     console.log("안타냐?")
+//   }
+//   res.end()
+// }
+
+// export default io
+
 import { NextApiResponseServerIO } from "@/types/chat"
 import { Server as NetServer } from "http"
 import { NextApiRequest } from "next"
@@ -20,6 +52,9 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       addTrailingSlash: false,
     })
 
+    console.log("서버실행")
+
+    // 추가한거
     io.on("connection", (socket) => {
       console.log("A user connected:", socket.id)
       socket.on("join_room", (roomId) => {
@@ -37,8 +72,11 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
         console.log("A user disconnected:", socket.id)
       })
     })
+    // 추가한거
     // append SocketIO server to Next.js socket server response
-    // res.socket.server.io = io
+    res.socket.server.io = io
+  } else {
+    console.log("여기타나?")
   }
   res.end()
 }

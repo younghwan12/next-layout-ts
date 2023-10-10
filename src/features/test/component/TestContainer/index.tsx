@@ -21,21 +21,21 @@ const TestContainer = () => {
 
   const userInfo = useAppSelector((state) => state.login.userInfo)
 
-  // useEffect(() => {
-  //   if (userInfo.id) {
-  //     const socket = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL, {
-  //       path: "/api/socket/io",
-  //       addTrailingSlash: false,
-  //     })
-  //     socket.emit("join", userInfo.id)
+  useEffect(() => {
+    if (userInfo?.id) {
+      const socket = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL, {
+        path: "/api/socket/io",
+        addTrailingSlash: false,
+      })
 
-  //     socket.on("connect", () => {
-  //       console.log("SOCKET CONNECTED!", socket.id)
-  //     })
+      socket.on("connect", () => {
+        socket.emit("join_room", userInfo?.id)
+        console.log("SOCKET CONNECTED!", socket.id)
+      })
 
-  //     if (socket) return () => socket.disconnect()
-  //   }
-  // }, [userInfo])
+      if (socket) return () => socket.disconnect()
+    }
+  }, [userInfo])
 
   // connected flag
 
