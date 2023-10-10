@@ -16,11 +16,14 @@ const { Header, Sider, Content } = AntdLayout
 import type { MenuProps } from "antd"
 import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons"
 import { FloatButton } from "antd"
+import { useAppSelector } from "@/redux/hooks"
 interface LayoutProps {
   children: React.ReactNode
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const userInfo = useAppSelector((state) => state.login.userInfo)
+
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -73,7 +76,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Menu mode="inline" selectedKeys={[currentMenuItem]} items={items} />
       </Sider>
       <AntdLayout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header style={{ padding: 0, background: colorBgContainer, position: "relative" }}>
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -84,6 +87,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               height: 64,
             }}
           />
+          {userInfo?.id ? (
+            <Button className="login_btn">로그아웃</Button>
+          ) : (
+            <Button className="login_btn" onClick={() => router.push("/login")}>
+              로그인
+            </Button>
+          )}
         </Header>
         <Content
           style={{

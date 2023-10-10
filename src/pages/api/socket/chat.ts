@@ -11,6 +11,14 @@ const chat = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
 
     // return message
     res.status(201).json(message)
+
+    // const { message, channel } = req.body
+
+    // // dispatch to channel "message"
+    // res?.socket?.server?.io?.to(channel).emit("message", message)
+
+    // // return message
+    // res.status(201).json(message)
   }
 }
 

@@ -21,6 +21,8 @@ const ChatContainer = () => {
   const [chatMessages, setChatMessages] = useState<IChatMessage[]>([])
   const [messageInput, setMessageInput] = useState<string>("")
   const [userNameInput, setUserNameInput] = useState<string>("")
+  const [channelInput, setChannelInput] = useState<string>("")
+
   const [userName, setUserName] = useState<string>("")
 
   // dispatch message to other users
@@ -111,9 +113,21 @@ const ChatContainer = () => {
                 }
               }}
             />
+            <Input
+              value={channelInput}
+              disabled={!connected}
+              onChange={(e) => setChannelInput(e.target.value)}
+              placeholder={connected ? "채널" : "Connecting..."}
+              onKeyUp={(e) => {
+                if (e.key === "Enter") {
+                  setChannelInput(userNameInput)
+                }
+              }}
+            />
             <Button
               onClick={() => {
                 setUserName(userNameInput)
+                setChannelInput(userNameInput)
               }}
               disabled={!connected}
             >

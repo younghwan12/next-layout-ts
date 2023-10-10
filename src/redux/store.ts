@@ -3,23 +3,24 @@ import { combineReducers } from "@reduxjs/toolkit"
 import appApi from "./appApi"
 import storage from "redux-persist/lib/storage"
 import { persistReducer, persistStore } from "redux-persist"
+import loginSlice from "@/features/login/redux/loginSlice"
 
 const persistConfig = {
   key: "root",
   storage,
-  //   whitelist: ["login"], // login 슬라이스만 유지하도록 whitelist 설정
+  // whitelist: ["login"], // login 슬라이스만 유지하도록 whitelist 설정
 }
 
 const reducers = combineReducers({
   [appApi.reducerPath]: appApi.reducer,
   // code: codeMgtReducer,
-  //   login: authSlice,
+  login: loginSlice,
 })
 
-const persistedReducer = persistReducer(persistConfig, reducers)
+// const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: reducers,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

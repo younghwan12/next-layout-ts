@@ -69,27 +69,27 @@ const KaKaoContent = () => {
     }
   }, [userName])
 
-  useEffect((): any => {
-    const socket = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL, {
-      path: "/api/socket/io",
-      addTrailingSlash: false,
-    })
+  // useEffect((): any => {
+  //   const socket = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL, {
+  //     path: "/api/socket/io",
+  //     addTrailingSlash: false,
+  //   })
 
-    // log socket connection
-    socket.on("connect", () => {
-      console.log("SOCKET CONNECTED!", socket.id)
-      setConnected(true)
-    })
+  //   // log socket connection
+  //   socket.on("connect", () => {
+  //     console.log("SOCKET CONNECTED!", socket.id)
+  //     setConnected(true)
+  //   })
 
-    // update chat on new message dispatched
-    socket.on("message", (message: IChatMessage) => {
-      chatMessages.push(message)
-      setChatMessages([...chatMessages])
-    })
+  //   // update chat on new message dispatched
+  //   socket.on("message", (message: IChatMessage) => {
+  //     chatMessages.push(message)
+  //     setChatMessages([...chatMessages])
+  //   })
 
-    // socket disconnet onUnmount if exists
-    if (socket) return () => socket.disconnect()
-  }, [])
+  //   // socket disconnet onUnmount if exists
+  //   if (socket) return () => socket.disconnect()
+  // }, [])
 
   if (!connected) {
     return <LoadingDots />

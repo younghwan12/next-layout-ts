@@ -19,8 +19,26 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
       path: path,
       addTrailingSlash: false,
     })
+
+    io.on("connection", (socket) => {
+      console.log("A user connected:", socket.id)
+      socket.on("join_room", (roomId) => {
+        socket.join(roomId)
+        console.log(`user with id-${socket.id} joined room - ${roomId}`)
+      })
+
+      socket.on("send_msg", (data) => {
+        console.log(data, "DATA")
+        //This will send a message to a specific room ID
+        socket.to(data.roomId).emit("receive_msg", data)
+      })
+
+      socket.on("disconnect", () => {
+        console.log("A user disconnected:", socket.id)
+      })
+    })
     // append SocketIO server to Next.js socket server response
-    res.socket.server.io = io
+    // res.socket.server.io = io
   }
   res.end()
 }
