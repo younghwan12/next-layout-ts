@@ -1,5 +1,6 @@
 import LoadingDots from "@/component/loading/Loading"
 import { Button, Input } from "antd"
+import Image from "next/image"
 import React, { useState, useEffect, useRef } from "react"
 import { io as ClientIO } from "socket.io-client"
 const { TextArea } = Input
@@ -129,13 +130,21 @@ const ChatContainer = () => {
       <div className="Content__Wrapper-sc-1cjm3se-0 uFNas">
         {chatMessages.length ? (
           chatMessages.map((chatMessage, i) => (
-            <div key={"msg_" + i} className={`chat ${chatMessage.userName === userName ? "eTmjrj" : ""}`}>
+            <div key={"msg_" + i} className={`chat ${chatMessage.userName === userName ? "eTmjrj" : "gRZqBz"}`}>
+              {chatMessage.userName !== userName && (
+                <>
+                  <Image width={45} height={45} src="/images/test01.jpg" alt="thumbnail" />
+                  <div className="nameBlock lcFuUq">{userName}</div>
+                </>
+              )}
               <div>
                 <div
-                  className={`ChatBlock__ChatWrapper-sc-1tikh8m-0 ${chatMessage.userName === userName ? "iCmNFm" : ""}`}
+                  className={`ChatBlock__ChatWrapper-sc-1tikh8m-0 iCmNFm ${
+                    chatMessage.userName === userName ? "iCmNFm" : ""
+                  }`}
                 >
                   {chatMessage.message}
-                  <span className="not-read">1</span>
+                  {chatMessage.userName == userName && <span className="not-read">1</span>}
                   <span className="time">오후 2:37</span>
                 </div>
               </div>

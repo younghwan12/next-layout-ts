@@ -11,6 +11,8 @@
   width: 100%;
   height: 100%;
   position: relative;
+  background: rgb(178, 199, 217);
+  border-radius: 15px;
 }
 .main_Wrapper_footer {
   position: fixed;
@@ -31,6 +33,8 @@
 //   overflow: auto;
 //   width: 100%;
 // }
+
+// me
 .eTmjrj {
   text-align: right;
   margin-top: 10px;
@@ -68,6 +72,40 @@
   max-width: 70%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+}
+
+// you
+.gRZqBz {
+  position: relative;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 50px;
+  img {
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    height: 45px;
+    width: 45px;
+    border-radius: 20px;
+    float: left;
+    cursor: pointer;
+  }
+  .lcFuUq {
+    margin-bottom: 5px;
+  }
+}
+.gRZqBz .ChatBlock__ChatWrapper-sc-1tikh8m-0 {
+  background-color: rgb(255, 255, 255);
+  span {
+    position: absolute;
+    &.time {
+      min-width: 65px;
+      text-align: left;
+      bottom: 0px;
+      right: -70px;
+    }
+  }
 }
 
 .msg-wrapper {
