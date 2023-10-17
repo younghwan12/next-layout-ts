@@ -8,7 +8,7 @@ import loginSlice from "@/features/login/redux/loginSlice"
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["login"], // login 슬라이스만 유지하도록 whitelist 설정
+  // whitelist: ["auth"], // login 슬라이스만 유지하도록 whitelist 설정
 }
 
 const reducers = combineReducers({
@@ -17,10 +17,10 @@ const reducers = combineReducers({
   auth: loginSlice,
 })
 
-// const persistedReducer = persistReducer(persistConfig, reducers)
+const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = configureStore({
-  reducer: reducers,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

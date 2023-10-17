@@ -19,7 +19,6 @@ const loginSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getLogin.pending, (state, action) => {
-      console.log("팬딩중")
       state.fetchLoginInfoLoading = true
     })
     builder.addCase(getLogin.fulfilled, (state, action) => {

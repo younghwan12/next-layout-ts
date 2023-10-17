@@ -7,7 +7,12 @@ const MessageContainer = () => {
   useEffect(() => {
     console.log("userInfo", userInfo)
   }, [])
-  return <div>MessageContainer</div>
+  return (
+    <div className="flex justify-between">
+      <div className="w-[48%]">LeftBlock</div>
+      <div className="w-[48%]">RightBlock</div>
+    </div>
+  )
 }
 
 export default MessageContainer
