@@ -16,13 +16,16 @@ const { Header, Sider, Content } = AntdLayout
 import type { MenuProps } from "antd"
 import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons"
 import { FloatButton } from "antd"
-import { useAppSelector } from "@/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
+import { logout } from "@/features/login/redux/loginSlice"
 interface LayoutProps {
   children: React.ReactNode
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const userInfo = useAppSelector((state) => state.login.userInfo)
+  const dispatch = useAppDispatch()
+  // const loginInfo = useAppSelector((state) => state.auth.loginInfo)
+  const userInfo = useAppSelector((state) => state.auth.userInfoDetail)
 
   const items: MenuProps["items"] = [
     {
@@ -55,6 +58,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       key: "6",
       label: <Link href="/apitest">Api Test</Link>,
     },
+    {
+      key: "7",
+      label: <Link href="/message">Talk Making</Link>,
+    },
   ]
 
   const router = useRouter()
@@ -65,6 +72,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   } = theme.useToken()
 
   const currentMenuItem = router.pathname.substring(1) || "flowchart"
+
+  const logOutFunc = () => {
+    dispatch(logout(null))
+    router.push("/")
+  }
 
   return (
     <AntdLayout>
@@ -87,8 +99,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               height: 64,
             }}
           />
-          {userInfo?.id ? (
-            <Button className="login_btn">로그아웃</Button>
+          {userInfo?.auth ? (
+            <Button className="login_btn" onClick={logOutFunc}>
+              로그아웃
+            </Button>
           ) : (
             <Button className="login_btn" onClick={() => router.push("/login")}>
               로그인

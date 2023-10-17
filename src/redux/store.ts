@@ -8,13 +8,13 @@ import loginSlice from "@/features/login/redux/loginSlice"
 const persistConfig = {
   key: "root",
   storage,
-  // whitelist: ["login"], // login 슬라이스만 유지하도록 whitelist 설정
+  whitelist: ["login"], // login 슬라이스만 유지하도록 whitelist 설정
 }
 
 const reducers = combineReducers({
   [appApi.reducerPath]: appApi.reducer,
   // code: codeMgtReducer,
-  login: loginSlice,
+  auth: loginSlice,
 })
 
 // const persistedReducer = persistReducer(persistConfig, reducers)

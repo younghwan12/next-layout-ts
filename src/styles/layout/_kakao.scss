@@ -66,11 +66,10 @@ p {
 // 채팅방 리스트
 .jwBxvn {
   position: relative;
-  height: 750px;
+  height: 100%;
   .preview .BaseStyle__Notification-sc-1se1zy4-5 {
     top: 3px;
-    right: 5px;
-    padding: 3px;
+    right: 0px;
   }
   .room-block-top {
     position: relative;
@@ -125,13 +124,15 @@ p {
 .dFciPp {
   position: absolute;
   display: inline-block;
-  padding: 3px;
   color: rgb(255, 255, 255);
   background-color: rgb(255, 81, 61);
   border: none;
+  white-space: normal;
   border-radius: 20px;
   font-weight: bold;
-  min-width: 25px;
+  width: 25px;
+  line-height: 25px;
+  height: 25px;
   text-align: center;
 }
 
@@ -143,4 +144,42 @@ p {
   width: 100%;
   height: 100%;
   background: rgb(178, 199, 217);
+}
+
+// footer
+.jPLVXV {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  min-height: 50px;
+  max-height: 200px;
+  overflow: auto;
+  padding: 6px;
+  z-index: 100;
+  background-color: rgb(238, 238, 238);
+  form {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    textarea {
+      width: 80%;
+      resize: none;
+      height: 100%;
+      margin: 0px;
+      padding: 5px 10px;
+      display: inline-block;
+      border: none;
+      outline: none;
+    }
+    button {
+      width: 50px;
+      height: 40px;
+      background: rgb(255, 235, 51);
+    }
+  }
 }

@@ -21,8 +21,10 @@ const TestContainer = () => {
 
   const userInfo = useAppSelector((state) => state.login.userInfo)
 
+  const jwt = window.sessionStorage.getItem("jwt")
+
   useEffect(() => {
-    if (userInfo?.id) {
+    if (jwt) {
       const socket = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL, {
         path: "/api/socket/io",
         addTrailingSlash: false,
@@ -35,7 +37,7 @@ const TestContainer = () => {
 
       if (socket) return () => socket.disconnect()
     }
-  }, [userInfo])
+  }, [])
 
   // connected flag
 
@@ -61,12 +63,14 @@ const TestContainer = () => {
 
   const userList = [
     {
-      background_img_url: "",
-      id: 232,
-      name: "김두한",
-      profile_img_url: "",
-      status_msg: "",
-      user_id: "wnsgml8809",
+      id: "1",
+      user_id: "twice",
+      profile_img_url: "/images/twice.jpg",
+    },
+    {
+      id: "2",
+      user_id: "ive",
+      profile_img_url: "/images/ive.jpg",
     },
   ]
 
@@ -107,8 +111,22 @@ const TestContainer = () => {
   //   ;(inputRef?.current as any).focus()
   // }
 
+  // clident 메시지 전송
+  // const onChatSumbmit = (msg: string) => {
+  //   const chattingRequset: ChattingRequestDto = {
+  //     room_id: chatState.room_id,
+  //     type: chatState.type as RoomType,
+  //     participant: chatState.participant,
+  //     send_user_id: userState.id,
+  //     message: msg,
+  //     not_read: !isGroup && isMe ? 0 : chatState.participant.length
+  //   };
+  //   // 채팅방 참여자들에게 해당 메시지를 보냅니다.
+  //   authState.socket?.emit('message', chattingRequset);
+  // };
+
   const onDoubleClick = (room: any) => {
-    console.log(room)
+    console.log("room", room)
     setRowData(room)
     setVisible(true)
   }
@@ -116,7 +134,7 @@ const TestContainer = () => {
   return (
     <>
       <div className="chat_list jwBxvn">
-        <li onDoubleClick={onDoubleClick}>
+        {/* <li onDoubleClick={() => onDoubleClick()}>
           <Image src="/images/twice.jpg" width={45} height={45} alt="profile Image"></Image>
           <p className="room-block-top">
             <b>twice</b>
@@ -135,21 +153,26 @@ const TestContainer = () => {
           <p className="preview">
             ㄴㅁㅇ<span className="BaseStyle__Notification-sc-1se1zy4-5 dFciPp">3</span>
           </p>
-        </li>
-        {/* {userList.map((item) => {
+        </li> */}
+        {userList.map((item) => {
           return (
             <li key={item.id} onDoubleClick={() => onDoubleClick(item)}>
               <Image src={`${item.profile_img_url}`} width={45} height={45} alt="profile Image"></Image>
               <p className="room-block-top">
                 <b>{item.user_id}</b>
-                <span>오전 9:43 {roomList.updatedAt}</span>
+                <span>
+                  오전 9:43
+                  {/* {roomList.updatedAt} */}
+                </span>
               </p>
               <p className="preview">
-                ㄴㅁㅇ {roomList.last_chat}<span className="BaseStyle__Notification-sc-1se1zy4-5 dFciPp">3 {roomList.not_read_chat}</span>
+                ㄴㅁㅇ
+                {/* {roomList.last_chat} */}
+                <span className="BaseStyle__Notification-sc-1se1zy4-5 dFciPp">3{/* {roomList.not_read_chat} */}</span>
               </p>
             </li>
           )
-        })} */}
+        })}
         {visible && <ChattingTestModal visible={visible} setVisible={setVisible} rowData={rowData} />}
       </div>
     </>

@@ -12,3 +12,21 @@ const TestPage = () => {
 }
 
 export default TestPage
+
+// export async function getServerSideProps(context) {
+//   console.log(context.req.cookies.jwt, "모가있을까요?")
+//   const token = context.req.cookies.jwt
+
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     }
+//   }
+
+//   return {
+//     props: {},
+//   }
+// }

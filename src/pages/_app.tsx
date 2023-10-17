@@ -5,7 +5,7 @@ import PrimeReact from "primereact/api"
 import "../styles/layout/layout.scss"
 import "primereact/resources/primereact.css"
 import "primereact/resources/themes/lara-light-indigo/theme.css"
-import "primeflex/primeflex.css"
+// import "primeflex/primeflex.css"
 
 import { Provider } from "react-redux"
 import { persistor, store } from "../redux/store"
@@ -16,7 +16,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <Provider store={store}>
       <Head>
         <title>Layout</title>
-        <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet" />
+        {/* <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet" /> */}
       </Head>
       <Component {...pageProps} />
     </Provider>

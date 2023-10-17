@@ -1,35 +1,3 @@
-// import { NextApiResponseServerIO } from "@/types/chat"
-// import { Server as NetServer } from "http"
-// import { NextApiRequest } from "next"
-// import { Server as ServerIO } from "socket.io"
-
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// }
-
-// const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
-//   if (!res.socket.server.io) {
-//     console.log("탄다")
-//     const path = "/api/socket/io"
-//     console.log(`New Socket.io server... to ${path}`)
-//     // adapt Next's net Server to http Server
-//     const httpServer: NetServer = res.socket.server as any
-//     const io = new ServerIO(httpServer, {
-//       path: path,
-//       addTrailingSlash: false,
-//     })
-//     // append SocketIO server to Next.js socket server response
-//     res.socket.server.io = io
-//   } else {
-//     console.log("안타냐?")
-//   }
-//   res.end()
-// }
-
-// export default io
-
 import { NextApiResponseServerIO } from "@/types/chat"
 import { Server as NetServer } from "http"
 import { NextApiRequest } from "next"
@@ -44,15 +12,13 @@ export const config = {
 const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (!res.socket.server.io) {
     const path = "/api/socket/io"
-    console.log(`New Socket.io server... to ${path}`)
+    console.log(`New Socket.io server...✅ to ${path}`)
     // adapt Next's net Server to http Server
     const httpServer: NetServer = res.socket.server as any
     const io = new ServerIO(httpServer, {
       path: path,
       addTrailingSlash: false,
     })
-
-    console.log("서버실행")
 
     // 추가한거
     io.on("connection", (socket) => {
@@ -76,7 +42,7 @@ const io = async (req: NextApiRequest, res: NextApiResponseServerIO) => {
     // append SocketIO server to Next.js socket server response
     res.socket.server.io = io
   } else {
-    console.log("여기타나?")
+    console.log("Socket is already running")
   }
   res.end()
 }
