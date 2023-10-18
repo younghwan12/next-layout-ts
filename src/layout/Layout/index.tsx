@@ -75,7 +75,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const logOutFunc = () => {
     dispatch(logout(null))
-    router.push("/")
+    router.push("/login")
   }
 
   return (
@@ -120,10 +120,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           {children}
         </Content>
       </AntdLayout>
-      <FloatButton.Group trigger="click" type="primary" style={{ right: 24 }} icon={<CustomerServiceOutlined />}>
+      {/* <FloatButton.Group trigger="click" type="primary" style={{ right: 24 }} icon={<CustomerServiceOutlined />}>
         <FloatButton tooltip="다크 모드" icon={<CommentOutlined />} />
         <FloatButton tooltip="문의 하기" icon={<MessageOutlined />} />
-      </FloatButton.Group>
+      </FloatButton.Group> */}
     </AntdLayout>
   )
 }

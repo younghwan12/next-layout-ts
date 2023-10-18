@@ -19,7 +19,7 @@ const TestContainer = () => {
   const [visible, setVisible] = useState(false)
   const [modal] = useModal()
 
-  const userInfo = useAppSelector((state) => state.login.userInfo)
+  // const userInfo = useAppSelector((state) => state.login.userInfo)
 
   const jwt = window.sessionStorage.getItem("jwt")
 
